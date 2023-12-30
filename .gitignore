@@ -8,7 +8,6 @@
 /var/
 /vendor/
 .idea
-.env
 .env.test
 ###< symfony/framework-bundle ###
 
