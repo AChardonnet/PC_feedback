@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block body %}
+    <h1>Inscription</h1>
+
+    {{ form_start(form) }}
+    {{ form_row(form.username, {'label' : 'Nom d\'utillisateur', 'attr' : {'placeholder' : 'Nom d\'utilisateur'}}) }}
+    {{ form_row(form.email, {'label' : 'E-mail', 'attr' : {'placeholder' : 'E-mail'}}) }}
+    {{ form_row(form.firstName, {'label' : 'Prénom', 'attr' : {'placeholder' : 'Prénom'}}) }}
+    {{ form_row(form.lastName, {'label' : 'Nom', 'attr' : {'placeholder' : 'Nom'}}) }}
+    {{ form_row(form.promo, {'label' : 'Promo', 'attr' : {'placeholder' : 'Promo'}}) }}
+    {{ form_row(form.password, {'label' : 'Mot de passe', 'attr' : {'placeholder' : 'Mot de passe'}}) }}
+    {{ form_row(form.confirm_password, {'label' : 'Confirmation de mot de passe', 'attr' : {'placeholder' : 'Confirmation de mot de passe'}}) }}
+    <button type="submit" class="btn btn-success">Inscription</button>
+    {{ form_end(form) }}
+{% endblock %}
