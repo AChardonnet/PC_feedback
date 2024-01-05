@@ -23,6 +23,9 @@ security:
             logout:
                 path: security_logout
                 target: app_home
+    role_hierarchy:
+        ROLE_MODERATOR: ROLE_USER
+        ROLE_ADMIN: ROLE_MODERATOR
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
