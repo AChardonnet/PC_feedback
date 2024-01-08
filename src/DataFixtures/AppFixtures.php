@@ -7,7 +7,7 @@ use App\Entity\Feedback;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-;
+
 
 class AppFixtures extends Fixture
 {
@@ -19,7 +19,8 @@ class AppFixtures extends Fixture
             ->setPromo(2006)
             ->setPassword("leS4umonC3stBon!")
             ->setFirstName("Jean")
-            ->setLastName("Loutre");
+            ->setLastName("Loutre")
+            ->setRoles(['ROLE_USER']);
         $manager->persist($userJL);
         $userM = new User();
         $userM->setUsername("Lucmoineaudu91")
@@ -27,7 +28,8 @@ class AppFixtures extends Fixture
             ->setPromo(2007)
             ->setPassword("piouPi0u!")
             ->setFirstName("Luc")
-            ->setLastName("Moineau");
+            ->setLastName("Moineau")
+            ->setRoles(['ROLE_USER']);
         $manager->persist($userM);
 
         $A1 = new Course();
