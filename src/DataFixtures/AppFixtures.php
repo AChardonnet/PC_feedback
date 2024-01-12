@@ -7,17 +7,26 @@ use App\Entity\Feedback;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
 class AppFixtures extends Fixture
 {
+    private $userPaswordUserInterface;
+
+    public function __construct(UserPasswordHasherInterface $userPaswordUserInterface)
+    {
+        $this->userPaswordUserInterface = $userPaswordUserInterface;
+    }
     public function load(ObjectManager $manager): void
     {
         $userJL = new User();
         $userJL->setUsername("Jeanloutre007")
             ->setEmail("jean.loutre@centrale-med.fr")
             ->setPromo(2006)
-            ->setPassword("leS4umonC3stBon!")
+            ->setPassword(
+                $this->userPaswordUserInterface->hashPassword(
+                    $userJL, "leS4umonC3stBon!"))
             ->setFirstName("Jean")
             ->setLastName("Loutre")
             ->setRoles(['ROLE_USER']);
@@ -26,7 +35,9 @@ class AppFixtures extends Fixture
         $userM->setUsername("Lucmoineaudu91")
             ->setEmail("luc.moineau@centrale-med.fr")
             ->setPromo(2007)
-            ->setPassword("piouPi0u!")
+            ->setPassword(
+                $this->userPaswordUserInterface->hashPassword(
+                    $userJL,"piouPi0u!"))
             ->setFirstName("Luc")
             ->setLastName("Moineau")
             ->setRoles(['ROLE_USER']);
