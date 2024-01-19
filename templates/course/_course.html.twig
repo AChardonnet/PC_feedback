@@ -1,0 +1,8 @@
+<li>{{ course.name }}</li>
+{% if not course.children.isEmpty() %}
+    <ul>
+        {% for course in course.children %}
+            {% include 'course/_course.html.twig' %}
+        {% endfor %}
+    </ul>
+{% endif %}

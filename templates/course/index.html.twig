@@ -4,8 +4,10 @@
 
 {% block body %}
     <ul>
-    {% for course in courses %}
-        <li>{{ course.name }}</li>
-    {% endfor %}
+        {% for course in courses %}
+            {% if course.parent == null %}
+                {% include 'course/_course.html.twig' %}
+            {% endif %}
+        {% endfor %}
     </ul>
 {% endblock %}
