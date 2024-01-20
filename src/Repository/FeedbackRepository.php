@@ -31,6 +31,14 @@ class FeedbackRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function findLastFeedbacks(int $n = 3)
+    {
+        $qb = $this->createQueryBuilder('f')
+            ->setMaxResults($n);
+        $query = $qb->getQuery();
+        return $query->execute();
+    }
+
 //    /**
 //     * @return Feedback[] Returns an array of Feedback objects
 //     */

@@ -39,7 +39,7 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    #[Route('/login', name: 'security_login')]
+    #[Route('/', name: 'security_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         $error = $authenticationUtils->getLastAuthenticationError();
