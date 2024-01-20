@@ -29,6 +29,15 @@ class CourseRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function findById(int $id)
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->where('c.id = :id')
+            ->setParameter('id', $id);
+        $query = $qb->getQuery();
+        return $query->execute();
+    }
+
 //    /**
 //     * @return Course[] Returns an array of Course objects
 //     */
