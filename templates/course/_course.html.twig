@@ -1,4 +1,4 @@
-<li>{{ course.name }}</li>
+<li><a href="{{ path('course_course', {id : course.id}) }}">{{ course.name }}</a></li>
 {% if not course.children.isEmpty() %}
     <ul>
         {% for course in course.children %}
