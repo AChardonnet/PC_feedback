@@ -3,7 +3,36 @@
 {% block title %}{{ course.name }}{% endblock %}
 
 {% block body %}
-    <h3>{{ course.name }}</h3>
+    <div class="card">
+        <div class="header"><h2>{{ course.name }}</h2></div>
+        <div class="body">
+            {% if feedbacks != [] %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Feedback</th>
+                        <th scope="col">Note Générale</th>
+                        <th scope="col">Difficulté</th>
+                        <th scope="col">Intérêt</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for feedback in feedbacks %}
+                        <tr>
+                            <th scope="row">{{ feedback.comment }}</th>
+                            <td>{{ feedback.overall }}</td>
+                            <td>{{ feedback.difficulty }}</td>
+                            <td>{{ feedback.interest }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <h4>Ce cours n'as pas de feedback.</h4>
+            {% endif %}
+        </div>
+    </div>
+
     <p>
         id: {{ course.id }} <br>
         name: {{ course.name }}<br>
@@ -17,28 +46,4 @@
             parent: null
         {% endif %}
     </p>
-    {% if feedbacks != [] %}
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">Feedback</th>
-            <th scope="col">Note Générale</th>
-            <th scope="col">Difficulté</th>
-            <th scope="col">Intérêt</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for feedback in feedbacks %}
-            <tr>
-                <th scope="row">{{ feedback.title }}</th>
-                <td>{{ feedback.overall }}</td>
-                <td>{{ feedback.difficulty }}</td>
-                <td>{{ feedback.interest }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-        <h4>Ce cours n'as pas de feedback.</h4>
-    {% endif %}
 {% endblock %}
