@@ -34,6 +34,7 @@ class FeedbackRepository extends ServiceEntityRepository
     public function findLastFeedbacks(int $n = 3)
     {
         $qb = $this->createQueryBuilder('f')
+            ->orderBy('f.date', 'DESC')
             ->setMaxResults($n);
         $query = $qb->getQuery();
         return $query->execute();

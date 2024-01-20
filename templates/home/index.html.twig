@@ -14,7 +14,7 @@
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">{{ feedback.course.name }}</h5>
                                 </div>
-                                <p class="mb-1">!! DATE !!</p>
+                                <p class="mb-1">{{ feedback.date|date('d/m/Y h:m') }}</p>
                                 <small>{{ feedback.comment }}</small>
                             </a>
                         {% endfor %}

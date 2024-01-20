@@ -20,7 +20,7 @@
                     <input type="password" id="password" name="_password" class="form-control">
                 </div>
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                <input type="hidden" name="_target_path" value="{{ path('app_home') }}">
+                <input type="hidden" name="_target_path" value="{{ path('home_home') }}">
                 <div class="form-group">
                     <button type="submit" class="btn btn-success">login</button>
                 </div>
