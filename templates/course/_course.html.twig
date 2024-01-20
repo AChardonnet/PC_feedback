@@ -1,4 +1,8 @@
-<li><a href="{{ path('course_course', {id : course.id}) }}">{{ course.name }}</a></li>
+{% if course.isUE %}
+    <li><a href="{{ path('course_course', {id : course.id}) }}">{{ course.name }}</a></li>
+{% else %}
+    <li>{{ course.name }}</li>
+{% endif %}
 {% if not course.children.isEmpty() %}
     <ul>
         {% for course in course.children %}
