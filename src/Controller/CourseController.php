@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Course;
+use App\Entity\Feedback;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,8 +24,11 @@ class CourseController extends AbstractController
     #[Route('/course/{id}', name: 'course_course')]
     public function course(EntityManagerInterface $entityManager, int $id): Response
     {
+        $course = $entityManager->getRepository(Course::class)->find($id);
+        $feedbacks = $entityManager->getRepository(Feedback::class)->findAllOf($course);
         return $this->render('course/course.html.twig', [
-            'course' => $entityManager->getRepository(Course::class)->find($id)
+            'course' => $course,
+            'feedbacks' => $feedbacks
         ]);
     }
 }
