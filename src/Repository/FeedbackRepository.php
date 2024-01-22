@@ -40,6 +40,18 @@ class FeedbackRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function findBestCourseOverall(int $n = 3)
+    {
+        $qb = $this->createQueryBuilder('f')
+            ->join('f.course','c')
+            ->select('c.id, c.name, AVG(f.overall) AS averageOverall')
+            ->groupBy('c.id')
+            ->orderBy('AVG(f.overall)')
+            ->setMaxResults($n);
+        $query = $qb->getQuery();
+        return $query->execute();
+    }
+
 //    /**
 //     * @return Feedback[] Returns an array of Feedback objects
 //     */

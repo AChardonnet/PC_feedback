@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\FeedbackRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Collection;
 
 #[ORM\Entity(repositoryClass: FeedbackRepository::class)]
 class Feedback
@@ -14,11 +15,11 @@ class Feedback
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'feedback')]
+    #[ORM\ManyToOne(inversedBy: 'feedback', targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'feedback', targetEntity: Course::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?Course $course = null;
 

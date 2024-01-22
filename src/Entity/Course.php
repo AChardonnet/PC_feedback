@@ -24,6 +24,9 @@ class Course
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: self::class)]
     private Collection $children;
 
+    #[ORM\OneToMany(mappedBy: 'course', targetEntity: Feedback::class)]
+    private Collection $feedback;
+
     #[ORM\Column]
     private ?bool $isUE = null;
 

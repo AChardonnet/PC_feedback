@@ -22,7 +22,7 @@ security:
                 enable_csrf: true
             logout:
                 path: security_logout
-                target: app_home
+                target: home_home
     role_hierarchy:
         ROLE_MODERATOR: ROLE_USER
         ROLE_ADMIN: ROLE_MODERATOR

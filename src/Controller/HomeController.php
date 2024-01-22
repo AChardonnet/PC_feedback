@@ -14,7 +14,7 @@ class HomeController extends AbstractController
     public function index(EntityManagerInterface $em): Response
     {
         $lastFeedbacks = $em->getRepository(Feedback::class)->findLastFeedbacks();
-        $bestCourses = [];
+        $bestCourses = $em->getRepository(Feedback::class)->findBestCourseOverall();
         $courses = [];
         return $this->render('home/index.html.twig', [
             'lastFeedbacks' => $lastFeedbacks,

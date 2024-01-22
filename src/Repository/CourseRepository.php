@@ -38,13 +38,6 @@ class CourseRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
-    public function findByBestOverall()
-    {
-        $qb = $this->createQueryBuilder('c');
-        $query = $qb->getQuery();
-        return $query->execute();
-    }
-
 //    /**
 //     * @return Course[] Returns an array of Course objects
 //     */
