@@ -46,7 +46,7 @@ class FeedbackRepository extends ServiceEntityRepository
             ->join('f.course','c')
             ->select('c.id, c.name, AVG(f.overall) AS averageOverall')
             ->groupBy('c.id')
-            ->orderBy('AVG(f.overall)')
+            ->orderBy('AVG(f.overall)','DESC')
             ->setMaxResults($n);
         $query = $qb->getQuery();
         return $query->execute();
