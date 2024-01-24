@@ -10,7 +10,8 @@
                 <div class="body">
                     <div class="list-group">
                         {% for feedback in lastFeedbacks %}
-                            <a href="{{ path('course_course', {'id' : feedback.course.id}) }}" class="list-group-item list-group-item-action">
+                            <a href="{{ path('course_course', {'id' : feedback.course.id}) }}"
+                               class="list-group-item list-group-item-action">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">{{ feedback.course.name }}</h5>
                                 </div>
@@ -28,7 +29,8 @@
                 <div class="body">
                     <div class="list-group">
                         {% for course in bestCourses %}
-                            <a href="{{ path('course_course', {'id' : course.id}) }}" class="list-group-item list-group-item-action">
+                            <a href="{{ path('course_course', {'id' : course.id}) }}"
+                               class="list-group-item list-group-item-action">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">{{ course.name }}</h5>
                                 </div>
@@ -42,6 +44,15 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="header"><h2>Tous les Cours</h2></div>
+                <div class="body">
+                    {% for course in courses %}
+                        {% if course.parent == null %}
+                            <div class="accordion accordion-flush">
+                                {% include '_courseAccordion.html.twig' %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>

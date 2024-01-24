@@ -32,18 +32,5 @@
             {% endif %}
         </div>
     </div>
-
-    <p>
-        id: {{ course.id }} <br>
-        name: {{ course.name }}<br>
-        isUE: {{ course.isUE }}<br>
-        isOptionGroup: {{ course.isOptionGroup }}<br>
-        {% if course.parent != null %}
-            parent: <br>
-            name: {{ course.parent.name }} <br>
-            id: {{ course.parent.id }} <br>
-        {% else %}
-            parent: null
-        {% endif %}
-    </p>
+    {{ dump(course) }}
 {% endblock %}

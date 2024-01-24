@@ -54,12 +54,6 @@ class AppFixtures extends Fixture
             ->setIsOptionGroup(false)
             ->setName("Alpha");
         $manager->persist($alpha);
-        $langues = new Course();
-        $langues->setName("Langues")
-            ->setParent($A1)
-            ->setIsUE(false)
-            ->setIsOptionGroup(true);
-        $manager->persist($langues);
         $info = new Course();
         $info->setName("Informatique")
             ->setParent($alpha)
@@ -84,6 +78,23 @@ class AppFixtures extends Fixture
             ->setIsUE(true)
             ->setIsOptionGroup(false);
         $manager->persist($phi);
+        $beta = new Course();
+        $beta->setName('Beta')
+            ->setParent($A1)
+            ->setIsUE(false)
+            ->setIsOptionGroup(false);
+        $manager->persist($beta);
+        $langues = new Course();
+        $langues->setName("Langues")
+            ->setParent($A1)
+            ->setIsUE(false)
+            ->setIsOptionGroup(true);
+        $manager->persist($langues);
+        $A2 = new Course();
+        $A2->setName('2A')
+            ->setIsUE(false)
+            ->setIsOptionGroup(false);
+        $manager->persist($A2);
 
         $feeback = new Feedback();
         $feeback->setCourse($phi)
