@@ -5,17 +5,23 @@
 {% block body %}
     <div class="card">
         <div class="header"><h2>{{ course.name }}</h2></div>
-        <div class="body">
+        <div class="header">
             {% if feedbacks != [] %}
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">Feedback</th>
+                        <th scope="col"></th>
+                        <th scope="col">Note Globale<br>{{ scores[0][1]|number_format(1,',') }}/5</th>
+                        <th scope="col">Note de Difficulté<br>{{ scores[0][2]|number_format(1,',') }}/5</th>
+                        <th scope="col">Note d'Intéret<br>{{ scores[0][3]|number_format(1,',') }}/5</th>
+                    </tr>
+                    </thead>
+                    <tr>
+                        <th scope="col">Feedbacks</th>
                         <th scope="col">Note Générale</th>
                         <th scope="col">Difficulté</th>
                         <th scope="col">Intérêt</th>
                     </tr>
-                    </thead>
                     <tbody>
                     {% for feedback in feedbacks %}
                         <tr>
@@ -28,9 +34,9 @@
                     </tbody>
                 </table>
             {% else %}
+                </table>
                 <h4>Ce cours n'as pas de feedback.</h4>
             {% endif %}
         </div>
     </div>
-    {{ dump(course) }}
 {% endblock %}

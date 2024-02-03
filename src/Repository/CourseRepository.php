@@ -38,6 +38,17 @@ class CourseRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function getScores(int $courseId)
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->join('c.feedback', 'f')
+            ->select('AVG(f.overall), AVG(f.difficulty), AVG(f.interest)')
+            ->where('c.id = :id')
+            ->setParameter('id', $courseId);
+        $query = $qb->getQuery();
+        return $query->execute();
+    }
+
 //    /**
 //     * @return Course[] Returns an array of Course objects
 //     */

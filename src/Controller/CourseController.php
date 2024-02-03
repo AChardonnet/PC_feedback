@@ -26,9 +26,11 @@ class CourseController extends AbstractController
     {
         $course = $entityManager->getRepository(Course::class)->find($id);
         $feedbacks = $entityManager->getRepository(Feedback::class)->findAllOf($course);
+        $scores = $entityManager->getRepository(Course::class)->getScores($id);
         return $this->render('course/course.html.twig', [
             'course' => $course,
-            'feedbacks' => $feedbacks
+            'feedbacks' => $feedbacks,
+            'scores' => $scores
         ]);
     }
 }
