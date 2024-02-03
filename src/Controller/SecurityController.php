@@ -71,11 +71,12 @@ class SecurityController extends AbstractController
         $client = new \OAuth2\Client($id, $secret);
 
         if(!$request->query->has('code')){
-            $url = $client->getAuthenticationUrl($base.'/oauth/v2/auth', $this->generateUrl('security_login', [],UrlGeneratorInterface::ABSOLUTE_URL));
+            dump($request);
+            $url = $client->getAuthenticationUrl($base.'/oauth/v2/auth', $this->generateUrl('security_loginmy', [],UrlGeneratorInterface::ABSOLUTE_URL));
             return $this->redirect($url);
         }
         else{
-            $params = ['code' => $request->query->get('code'), 'redirect_uri' => $this->generateUrl('security_login', [],UrlGeneratorInterface::ABSOLUTE_URL)];
+            $params = ['code' => $request->query->get('code'), 'redirect_uri' => $this->generateUrl('security_loginmy', [],UrlGeneratorInterface::ABSOLUTE_URL)];
             $resp = $client->getAccessToken($base.'/oauth/v2/token', 'authorization_code', $params);
 
             if(isset($resp['result']) && isset($resp['result']['access_token'])){
