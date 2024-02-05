@@ -2,5 +2,33 @@
 
 {% block body %}
     <h2>Création d'un cours</h2>
-{% endblock %}
 
+    <div class="row">
+        <div class="col-md-8">
+            {{ form_start(form) }}
+            {{ form_row(form.name, {'label' : 'Nom', 'attr' : {'placeholder' : 'Nom', 'class' : 'form-control'}}) }}
+            {{ form_row(form.parent, {'label' : 'Parent', 'attr' : {'placeholder' : 'Parent', 'class' : 'form-control'}}) }}
+            {{ form_row(form.isUE, {'label' : 'UE'}) }}
+            {{ form_row(form.isOptionGroup, {'label' : 'Groupe d\'options'}) }}
+            <button type="submit" class="btn btn-success">Envoyer</button>
+            {{ form_end(form) }}
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="header">
+                    <h2>Tous les Cours</h2>
+                </div>
+                <div class="body">
+                    {% for course in courses %}
+                        {% if course.parent == null %}
+                            <div class="accordion accordion-flush">
+                                {% include '_courseAccordionAdmin.html.twig' %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

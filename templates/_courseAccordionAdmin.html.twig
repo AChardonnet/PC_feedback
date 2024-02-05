@@ -1,0 +1,34 @@
+{% if course.children.isEmpty() %}
+    <li class="list-group-item">
+        {% if course.isUE %}
+            <a href="{{ path('course_course', {'id' : course.id}) }}">{{ course.name }} (id : {{ course.id }})</a>
+        {% else %}
+            {{ course.name }} (id : {{ course.id }})
+        {% endif %}
+    </li>
+{% else %}
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapse{{ course.id }}" aria-expanded="true"
+                    aria-controls="panelsStayOpen-collapse{{ course.id }}">
+                {{ course.name }} (id : {{ course.id }})
+            </button>
+        </h2>
+        <div id="panelsStayOpen-collapse{{ course.id }}" class="accordion-collapse collapse show">
+            <div class="accordion-body">
+                {% if course.children.isEmpty() %}
+                    <ul class="list-group">
+                        {% include '_courseAccordionAdmin.html.twig' %}
+                    </ul>
+                {% else %}
+                    <div class="accordion accordion-flush">
+                        {% for course in course.children %}
+                            {% include '_courseAccordionAdmin.html.twig' %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endif %}
