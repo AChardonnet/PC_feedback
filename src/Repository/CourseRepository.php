@@ -24,7 +24,7 @@ class CourseRepository extends ServiceEntityRepository
     public function findAllAlphabetically()
     {
         $qb = $this->createQueryBuilder('c')
-            ->orderBy('c.name','ASC');
+            ->orderBy('c.name', 'ASC');
         $query = $qb->getQuery();
         return $query->execute();
     }
@@ -49,6 +49,14 @@ class CourseRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function nbCourse()
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->select('COUNT(c.id)')
+            /*->where('c.isUE = 1 OR c.isOptionGroup = 1')*/;
+        $query = $qb->getQuery();
+        return $query->execute();
+    }
 //    /**
 //     * @return Course[] Returns an array of Course objects
 //     */

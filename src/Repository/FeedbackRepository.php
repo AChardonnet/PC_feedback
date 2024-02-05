@@ -52,6 +52,14 @@ class FeedbackRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function nbFeedback()
+    {
+        $qb = $this->createQueryBuilder('f')
+            ->select('COUNT(f.id)');
+        $query = $qb->getQuery();
+        return $query->execute();
+    }
+
 //    /**
 //     * @return Feedback[] Returns an array of Feedback objects
 //     */

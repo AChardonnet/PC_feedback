@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Panneau d'administration</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="header"><h3>Chiffres Clefs</h3></div>
+                <div class="body">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>Nombre de cours</td>
+                            <td>{{ nbCourses }}</td>
+                        </tr>
+                        <tr>
+                            <td>Nombre de feedbacks</td>
+                            <td>{{ nbFeedbacks }}</td>
+                        </tr>
+                        <tr>
+                            <td>Nombre d'utilisateurs</td>
+                            <td>{{ nbUsers }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="header">
+                    <h2>Tous les Cours <button class="btn btn-success" onclick="location.href = '{{ path('admin_addCourse') }}';">Ajouter</button></h2>
+                </div>
+                <div class="body">
+                    {% for course in courses %}
+                        {% if course.parent == null %}
+                            <div class="accordion accordion-flush">
+                                {% include '_courseAccordion.html.twig' %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

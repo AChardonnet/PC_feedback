@@ -4,15 +4,18 @@
 
 {% block body %}
     <div class="card">
-        <div class="row">
-            <div class="col-md-10">
-                <div class="header"><h2>{{ course.name }}</h2></div>
+        <div class="header">
+            <div class="row">
+                <div class="col-md-10">
+                    <h2>{{ course.name }}</h2></div>
             </div>
             <div class="col-md-2">
-                <button class="btn btn-success" onclick="location.href = '{{ path('course_feedback', {'id' : course.id}) }}';">Commenter</button>
+                <button class="btn btn-success"
+                        onclick="location.href = '{{ path('course_feedback', {'id' : course.id}) }}';">Commenter
+                </button>
             </div>
         </div>
-        <div class="header">
+        <div class="body">
             {% if feedbacks != [] %}
                 <table class="table">
                     <thead>
