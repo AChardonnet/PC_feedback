@@ -4,14 +4,21 @@
 
 {% block body %}
     <div class="card">
-        <div class="header"><h2>{{ course.name }}</h2></div>
+        <div class="row">
+            <div class="col-md-10">
+                <div class="header"><h2>{{ course.name }}</h2></div>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-success" onclick="location.href = '{{ path('course_feedback', {'id' : course.id}) }}';">Commenter</button>
+            </div>
+        </div>
         <div class="header">
             {% if feedbacks != [] %}
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Note Globale<br>{{ scores[0][1]|number_format(1,',') }}/5</th>
+                        <th scope="col">Moyennes</th>
+                        <th scope="col">Note Générale<br>{{ scores[0][1]|number_format(1,',') }}/5</th>
                         <th scope="col">Note de Difficulté<br>{{ scores[0][2]|number_format(1,',') }}/5</th>
                         <th scope="col">Note d'Intéret<br>{{ scores[0][3]|number_format(1,',') }}/5</th>
                     </tr>
@@ -25,7 +32,7 @@
                     <tbody>
                     {% for feedback in feedbacks %}
                         <tr>
-                            <th scope="row">{{ feedback.comment }}</th>
+                            <td>{{ feedback.comment }}</td>
                             <td>{{ feedback.overall }}</td>
                             <td>{{ feedback.difficulty }}</td>
                             <td>{{ feedback.interest }}</td>

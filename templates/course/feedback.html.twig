@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+<h2>Nouveau feedback pour <a href="{{ path('course_course',{'id' : course.id}) }}">{{ course.name }}</a></h2>
+    {{ form_start(form) }}
+    {{ form_row(form.title, {'label' : 'Titre', 'attr' : {'placeholder' : 'Titre', 'class' : 'form-control'}}) }}
+    {{ form_row(form.comment, {'label' : 'Commentaire', 'attr' : {'placeholder' : 'Commentaire', 'class' : 'form-control'}}) }}
+    {{ form_row(form.overall, {'label' : 'Note générale', 'attr' : {'placeholder' : 'Note générale', 'class' : 'form-control'}}) }}
+    {{ form_row(form.difficulty, {'label' : 'Note de difficulté', 'attr' : {'placeholder' : 'Note de difficulté', 'class' : 'form-control'}}) }}
+    {{ form_row(form.interest, {'label' : 'Note d\'intéret', 'attr' : {'placeholder' : 'Note d\'intéret', 'class' : 'form-control'}}) }}
+    <button type="submit" class="btn btn-success">Envoyer</button>
+    {{ form_end(form) }}
+{% endblock %}
+

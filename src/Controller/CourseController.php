@@ -4,8 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Course;
 use App\Entity\Feedback;
+use App\Entity\User;
+use App\Form\FeedbackType;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -32,5 +37,32 @@ class CourseController extends AbstractController
             'feedbacks' => $feedbacks,
             'scores' => $scores
         ]);
+    }
+
+    #[Route('/feedback/{id}', name: 'course_feedback')]
+    public function comment(Request $request, int $id, ManagerRegistry $managerRegistry, EntityManagerInterface $entityManager)
+    {
+        $course = $entityManager->getRepository(Course::class)->find($id);
+        $user = $this->getUser();
+        $feedback = new Feedback();
+        $form = $this->createForm(FeedbackType::class, $feedback);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $feedback->setDate(new \DateTime())
+                ->setValid(false)
+                ->setAuthor($user)
+                ->setCourse($course);
+
+            $manager = $managerRegistry->getManager();
+            $manager->persist($feedback);
+            $manager->flush();
+            return $this->redirectToRoute('course_course', ["id" => $id]);
+        }
+
+        return $this->render('course/feedback.html.twig', [
+            'form' => $form,
+            'course' => $course,
+            ]);
     }
 }

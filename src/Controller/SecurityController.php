@@ -28,7 +28,6 @@ class SecurityController extends AbstractController
         $form = $this->createForm(RegistrationType::class, $user);
 
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $hashedPassword = $passwordHasher->hashPassword($user, $user->getPassword());
             $user->setPassword($hashedPassword);
@@ -58,11 +57,12 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/loginmy', name: 'security_loginmy')]
-    public function loginMy(Request $request, TokenStorageInterface $tokenStorage, SessionInterface $session, EventDispatcherInterface $dispatcher, EntityManagerInterface $manager)
+    public function index(Request $request, TokenStorageInterface $tokenStorage, SessionInterface $session, EventDispatcherInterface $dispatcher, EntityManagerInterface $manager)
     {
         if($this->isGranted('ROLE_USER')){
             return $this->redirectToRoute('home_home');
         }
+
 
         $id = $this->getParameter('oauth_id');
         $secret = $this->getParameter('oauth_secret');
@@ -71,11 +71,9 @@ class SecurityController extends AbstractController
         $client = new \OAuth2\Client($id, $secret);
 
         if(!$request->query->has('code')){
-            dump($request);
             $url = $client->getAuthenticationUrl($base.'/oauth/v2/auth', $this->generateUrl('security_loginmy', [],UrlGeneratorInterface::ABSOLUTE_URL));
             return $this->redirect($url);
-        }
-        else{
+        }else{
             $params = ['code' => $request->query->get('code'), 'redirect_uri' => $this->generateUrl('security_loginmy', [],UrlGeneratorInterface::ABSOLUTE_URL)];
             $resp = $client->getAccessToken($base.'/oauth/v2/token', 'authorization_code', $params);
 
@@ -97,6 +95,7 @@ class SecurityController extends AbstractController
                     $user->setEmail($data['email']);
                     $user->setLastName($data['nom']);
                     $user->setFirstName($data['prenom']);
+                    $user->setPromo(2023);
                     $user->setRoles(['ROLE_USER']);
 
 
@@ -105,23 +104,20 @@ class SecurityController extends AbstractController
                 }
 
                 // Connexion effective de l'utilisateur
-                $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
+                $token = new UsernamePasswordToken($user, 'main',  $user->getRoles());
                 $tokenStorage->setToken($token);
 
                 $session->set('_security_main', serialize($token));
 
                 $event = new InteractiveLoginEvent($request, $token);
-                $dispatcher->dispatch($event);
+                $dispatcher->dispatch($event,"security.interactive_login");
 
             }
 
             // Redirection vers l'accueil
             return $this->redirectToRoute('home_home');
         }
-
     }
-
-
 
 
     #[Route('/logout', name: 'security_logout')]
