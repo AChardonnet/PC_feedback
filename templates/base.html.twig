@@ -34,6 +34,11 @@
                         <a href="{{ path('security_logout') }}" class="nav-link">Déconnexion</a>
                     </li>
                 {% endif %}
+                {% if is_granted("ROLE_ADMIN") %}
+                    <li class="nav-item">
+                        <a href="{{ path('admin_dashboard') }}" class="nav-link">Panneau d'administration</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
