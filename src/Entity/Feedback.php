@@ -6,6 +6,7 @@ use App\Repository\FeedbackRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: FeedbackRepository::class)]
 class Feedback
@@ -29,12 +30,27 @@ class Feedback
     #[ORM\Column(type: Types::TEXT)]
     private ?string $comment = null;
 
+    #[Assert\Range(
+        notInRangeMessage: "Les notes doivent être comprises entre {{ min }} et {{ max }}",
+        min: 0,
+        max: 5
+    )]
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $overall = null;
 
+    #[Assert\Range(
+        notInRangeMessage: "Les notes doivent être comprises entre {{ min }} et {{ max }}",
+        min: 0,
+        max: 5
+    )]
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $difficulty = null;
 
+    #[Assert\Range(
+        notInRangeMessage: "Les notes doivent être comprises entre {{ min }} et {{ max }}",
+        min: 0,
+        max: 5
+    )]
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $interest = null;
 

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Validation de Feedback</h2>
+    <div class="card">
+        <div class="header"><h3>{{ feedback.title }}</h3></div>
+        <div class="body">
+            <p>{{ feedback.comment }}</p>
+            <p>
+                Note Générale : {{ feedback.overall }}/5 <br>
+                Note de Difficulté : {{ feedback.difficulty }}/5 <br>
+                Note d'intéret : {{ feedback.interest }}/5
+            </p>
+            <p>
+                Auteur : {{ feedback.author.username }}<br>
+                Date : {{ feedback.date|date('d/m/Y h:m') }}<br>
+                Cours : {{ feedback.course.name }}
+            </p>
+        </div>
+    </div>
+    {{ form(form) }}
+{% endblock %}

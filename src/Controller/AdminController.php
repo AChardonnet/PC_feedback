@@ -6,6 +6,7 @@ use App\Entity\Course;
 use App\Entity\Feedback;
 use App\Entity\User;
 use App\Form\CourseType;
+use App\Form\ValidatorType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,11 +24,14 @@ class AdminController extends AbstractController
         $nbFeedbacks = $entityManager->getRepository(Feedback::class)->nbFeedback();
         $nbUsers = $entityManager->getRepository(User::class)->nbUser();
         $courses = $entityManager->getRepository(Course::class)->findAllAlphabetically();
+        $invalidFeedbacks = $entityManager->getRepository(Feedback::class)->invalidFeedbacks();
+
         return $this->render('admin/dashboard.html.twig', [
             'nbCourses' => $nbCourses[0][1],
             'nbUsers' => $nbUsers[0][1],
             'nbFeedbacks' => $nbFeedbacks[0][1],
             'courses' => $courses,
+            'invalidFeedbacks' => $invalidFeedbacks,
         ]);
     }
 
@@ -48,6 +52,39 @@ class AdminController extends AbstractController
         return $this->render('admin/addCourse.html.twig', [
             'form' => $form,
             'courses' => $courses,
+        ]);
+    }
+
+    #[Route('/feedback/{id}', name: 'admin_feedback')]
+    public function validateFeedback(int $id, EntityManagerInterface $entityManager, Request $request)
+    {
+        $feedback = $entityManager->getRepository(Feedback::class)->find($id);
+        $validator = new \stdClass();
+        $validator->validate=false;
+        $validator->delete=false;
+
+        $form = $this->createForm(ValidatorType::class, $validator);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            dump('form check');
+            if ($form->get('validate')->isClicked())
+            {
+                dump('validate');
+                $feedback->setValid(true);
+            }
+            else
+            {
+                $entityManager->remove($feedback);
+            }
+            dump('flush');
+            $entityManager->flush();
+
+            return $this->redirectToRoute('admin_dashboard');
+        }
+
+        return $this->render('admin/validateFeedback.html.twig', [
+            'feedback' => $feedback,
+            'form' => $form,
         ]);
     }
 }

@@ -60,6 +60,15 @@ class FeedbackRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function invalidFeedbacks()
+    {
+        $qb = $this->createQueryBuilder('f')
+            ->where('f.valid = 0')
+            ->orderBy('f.date', 'ASC');
+        $query = $qb->getQuery();
+        return $query->execute();
+    }
+
 //    /**
 //     * @return Feedback[] Returns an array of Feedback objects
 //     */
