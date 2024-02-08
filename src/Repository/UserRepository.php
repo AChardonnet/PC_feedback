@@ -29,6 +29,15 @@ class UserRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function findAdmins()
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->where("u.roles = 'ROLE_ADMIN'");
+        $query = $qb->getQuery();
+        dump($query);
+        return $query->execute();
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */

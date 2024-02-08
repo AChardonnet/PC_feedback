@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Course;
 use App\Entity\Feedback;
 use App\Entity\User;
+use App\Form\AdminPromoteType;
 use App\Form\CourseType;
 use App\Form\ValidatorType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -60,20 +61,17 @@ class AdminController extends AbstractController
     {
         $feedback = $entityManager->getRepository(Feedback::class)->find($id);
         $validator = new \stdClass();
-        $validator->validate=false;
-        $validator->delete=false;
+        $validator->validate = false;
+        $validator->delete = false;
 
         $form = $this->createForm(ValidatorType::class, $validator);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             dump('form check');
-            if ($form->get('validate')->isClicked())
-            {
+            if ($form->get('validate')->isClicked()) {
                 dump('validate');
                 $feedback->setValid(true);
-            }
-            else
-            {
+            } else {
                 $entityManager->remove($feedback);
             }
             dump('flush');
@@ -85,6 +83,38 @@ class AdminController extends AbstractController
         return $this->render('admin/validateFeedback.html.twig', [
             'feedback' => $feedback,
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/promotion', name: 'admin_promote')]
+    public function promote(Request $request, EntityManagerInterface $entityManager)
+    {
+        $promote = new \stdClass();
+        $promote->user = null;
+        $promote->submit = null;
+
+        $form = $this->createForm(AdminPromoteType::class, $promote);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $promote->user;
+            $user->setRoles(['ROLE_ADMIN']);
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+            return $this->redirectToRoute('admin_dashboard');
+        }
+
+        return $this->render('admin/promote.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/liste', name: 'admin_list')]
+    public function adminList(EntityManagerInterface $entityManager)
+    {
+        return $this->render('admin/list.html.twig', [
+            //'admins' => $entityManager->getRepository(User::class)->findAdmins(),
+            'admins' => [],
         ]);
     }
 }

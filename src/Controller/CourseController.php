@@ -30,7 +30,7 @@ class CourseController extends AbstractController
     public function course(EntityManagerInterface $entityManager, int $id): Response
     {
         $course = $entityManager->getRepository(Course::class)->find($id);
-        $feedbacks = $entityManager->getRepository(Feedback::class)->findAllOf($course);
+        $feedbacks = $entityManager->getRepository(Feedback::class)->findAllValidOf($course);
         $scores = $entityManager->getRepository(Course::class)->getScores($id);
         return $this->render('course/course.html.twig', [
             'course' => $course,

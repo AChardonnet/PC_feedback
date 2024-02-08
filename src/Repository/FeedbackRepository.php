@@ -31,9 +31,19 @@ class FeedbackRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function findAllValidOf(Course $course)
+    {
+        $qb = $this->createQueryBuilder('f')
+            ->where('f.course = :course AND f.valid = 1')
+            ->setParameter('course', $course);
+        $query = $qb->getQuery();
+        return $query->execute();
+    }
+
     public function findLastFeedbacks(int $n = 3)
     {
         $qb = $this->createQueryBuilder('f')
+            ->where('f.valid = 1')
             ->orderBy('f.date', 'DESC')
             ->setMaxResults($n);
         $query = $qb->getQuery();
@@ -44,6 +54,7 @@ class FeedbackRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('f')
             ->join('f.course','c')
+            ->where('f.valid = 1')
             ->select('c.id, c.name, AVG(f.overall) AS averageOverall')
             ->groupBy('c.id')
             ->orderBy('AVG(f.overall)','DESC')

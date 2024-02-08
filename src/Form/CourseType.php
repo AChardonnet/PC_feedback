@@ -18,7 +18,7 @@ class CourseType extends AbstractType
             ->add('isOptionGroup')
             ->add('parent', EntityType::class, [
                 'class' => Course::class,
-'choice_label' => 'name',
+                'choice_label' => 'name',
             ])
         ;
     }

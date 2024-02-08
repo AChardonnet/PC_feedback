@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Liste des Administrateurs</h2>
+    <div class="list-group">
+        {% for admin in admins %}
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">List group item heading</h5>
+                <small class="text-body-secondary">
+                    <button type="button" class="btn btn-danger">Révoquer</button>
+                </small>
+            </div>
+            <p class="mb-1">Some placeholder content in a paragraph.</p>
+            <small class="text-body-secondary">And some muted small print.</small>
+        </a>
+        {% endfor %}
+    </div>
+    {{ dump(admins) }}
+{% endblock %}
+
