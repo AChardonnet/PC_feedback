@@ -39,6 +39,11 @@
                         <a href="{{ path('admin_dashboard') }}" class="nav-link">Panneau d'administration</a>
                     </li>
                 {% endif %}
+                {% if is_granted("ROLE_MODERATOR") %}
+                    <li class="nav-item">
+                        <a href="{{ path('moderator_feedbacks') }}" class="nav-link">Commentaires à valider</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>

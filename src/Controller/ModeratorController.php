@@ -15,28 +15,30 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/moderator')]
 class ModeratorController extends AbstractController
 {
+    #[Route('/feedbacks', name : 'moderator_feedbacks')]
+    public function invalidFeedbacks(EntityManagerInterface $entityManager)
+    {
+        return $this->render('moderator/invalidFeedbacks.html.twig', [
+            'invalidFeedbacks' => $entityManager->getRepository(Feedback::class)->invalidFeedbacks(),
+        ]);
+    }
+
     #[Route('/feedback/{id}', name: 'moderator_feedback')]
     public function validateFeedback(int $id, EntityManagerInterface $entityManager, Request $request)
     {
         $feedback = $entityManager->getRepository(Feedback::class)->find($id);
-        $validator = new \stdClass();
-        $validator->validate = false;
-        $validator->delete = false;
 
-        $form = $this->createForm(ValidatorType::class, $validator);
+        $form = $this->createForm(ValidatorType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            dump('form check');
             if ($form->get('validate')->isClicked()) {
-                dump('validate');
                 $feedback->setValid(true);
             } else {
                 $entityManager->remove($feedback);
             }
-            dump('flush');
             $entityManager->flush();
 
-            return $this->redirectToRoute('moderator_feedback');
+            return $this->redirectToRoute('moderator_feedbacks');
         }
 
         return $this->render('moderator/validateFeedback.html.twig', [

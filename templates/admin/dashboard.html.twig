@@ -33,7 +33,7 @@
                     {% if invalidFeedbacks %}
                     <div class="list-group">
                         {% for feedback in invalidFeedbacks %}
-                            <a href="{{ path('admin_feedback', {'id' : feedback.id}) }}"
+                            <a href="{{ path('moderator_feedback', {'id' : feedback.id}) }}"
                                class="list-group-item list-group-item-action">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">{{ feedback.title }}</h5>
