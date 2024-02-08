@@ -56,36 +56,6 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/feedback/{id}', name: 'admin_feedback')]
-    public function validateFeedback(int $id, EntityManagerInterface $entityManager, Request $request)
-    {
-        $feedback = $entityManager->getRepository(Feedback::class)->find($id);
-        $validator = new \stdClass();
-        $validator->validate = false;
-        $validator->delete = false;
-
-        $form = $this->createForm(ValidatorType::class, $validator);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            dump('form check');
-            if ($form->get('validate')->isClicked()) {
-                dump('validate');
-                $feedback->setValid(true);
-            } else {
-                $entityManager->remove($feedback);
-            }
-            dump('flush');
-            $entityManager->flush();
-
-            return $this->redirectToRoute('admin_dashboard');
-        }
-
-        return $this->render('admin/validateFeedback.html.twig', [
-            'feedback' => $feedback,
-            'form' => $form,
-        ]);
-    }
-
     #[Route('/promotion', name: 'admin_promote')]
     public function promote(Request $request, EntityManagerInterface $entityManager)
     {
