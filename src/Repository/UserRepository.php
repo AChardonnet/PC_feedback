@@ -39,6 +39,15 @@ class UserRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function findByUsername(string $username)
+    {
+        $qb = $this->createQueryBuilder('u');
+        $qb->where('u.username = :username')
+            ->setParameter('username', $username);
+        $query = $qb->getQuery();
+        return $query->execute();
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */
