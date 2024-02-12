@@ -35,9 +35,11 @@
                     </li>
                 {% endif %}
                 {% if is_granted("ROLE_ADMIN") %}
-                    <li class="nav-item">
-                        <a href="{{ path('admin_dashboard') }}" class="nav-link">Panneau d'administration</a>
-                    </li>
+                    <li class="nav-item"><a href="{{ path('admin_dashboard') }}" class="nav-link">Panneau d'administration</a></li>
+                    <li><a href="{{ path('admin_list') }}" class="nav-link">Liste des Admins</a></li>
+                    <li><a href="{{ path('admin_listM') }}" class="nav-link">Liste des Modérateurs</a></li>
+                    <li><a href="{{ path('admin_promote') }}" class="nav-link">Ajouter un nouvel Admin</a></li>
+                    <li><a href="{{ path('admin_newModerator') }}" class="nav-link">Ajouter un nouveau Modérateur</a></li>
                 {% endif %}
                 {% if is_granted("ROLE_MODERATOR") %}
                     <li class="nav-item">

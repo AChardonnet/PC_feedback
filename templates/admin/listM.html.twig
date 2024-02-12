@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Liste des modérateurs</h2>
+    <div class="list-group">
+        {% for moderator in moderators %}
+            <a href="#" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ moderator.username }} ({{ moderator.firstName }} {{ moderator.lastName }})</h5>
+                    <small class="text-body-secondary">
+                        <button onclick="location.href = '{{ path('admin_demoteM', {'id' : moderator.id}) }}'" class="btn btn-danger">Révoquer</button>
+                    </small>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}
+

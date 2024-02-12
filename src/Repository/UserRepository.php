@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -29,12 +30,12 @@ class UserRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
-    public function findAdmins()
+    public function findByRole(string $role)
     {
-        $qb = $this->createQueryBuilder('u')
-            ->where("u.roles = 'ROLE_ADMIN'");
+        $qb = $this->createQueryBuilder('u');
+        $qb->andWhere($qb->expr()->like('u.roles',':role'))
+            ->setParameter('role', $role);
         $query = $qb->getQuery();
-        dump($query);
         return $query->execute();
     }
 

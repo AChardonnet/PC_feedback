@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use function PHPUnit\Framework\isEmpty;
 
 #[Route('/admin')]
 class AdminController extends AbstractController
@@ -71,7 +72,7 @@ class AdminController extends AbstractController
 
             $entityManager->persist($user);
             $entityManager->flush();
-            return $this->redirectToRoute('admin_dashboard');
+            return $this->redirectToRoute('admin_list');
         }
 
         return $this->render('admin/promote.html.twig', [
@@ -79,12 +80,74 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/liste', name: 'admin_list')]
+    #[Route('/demote/{id}', name: 'admin_demote')]
+    public function demote(int $id, EntityManagerInterface $entityManager)
+    {
+        $user = $entityManager->getRepository(User::class)->find($id);
+        $roles = $user->getRoles();
+        $newRoles = array_diff($roles, ['ROLE_ADMIN']);
+        if (isEmpty($newRoles)) {
+            $newRoles = ['ROLE_USER'];
+        }
+        $user->setRoles($newRoles);
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('admin_list');
+    }
+
+    #[Route('/demoteM/{id}', name: 'admin_demoteM')]
+    public function demoteM(int $id, EntityManagerInterface $entityManager)
+    {
+        $user = $entityManager->getRepository(User::class)->find($id);
+        $roles = $user->getRoles();
+        $newRoles = array_diff($roles, ['ROLE_MODERATOR']);
+        if (isEmpty($newRoles)) {
+            $newRoles = ['ROLE_USER'];
+        }
+        $user->setRoles($newRoles);
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('admin_listM');
+    }
+
+    #[Route('/list', name: 'admin_list')]
     public function adminList(EntityManagerInterface $entityManager)
     {
         return $this->render('admin/list.html.twig', [
-            //'admins' => $entityManager->getRepository(User::class)->findAdmins(),
-            'admins' => [],
+            'admins' => $entityManager->getRepository(User::class)->findByRole('%"ROLE_ADMIN"%'),
+        ]);
+    }
+
+    #[Route('/listM', name: 'admin_listM')]
+    public function adminListM(EntityManagerInterface $entityManager)
+    {
+        return $this->render('admin/listM.html.twig', [
+            'moderators' => $entityManager->getRepository(User::class)->findByRole('%"ROLE_MODERATOR"%'),
+        ]);
+    }
+
+    #[Route('/moderator-promotion', name: 'admin_newModerator')]
+    public function newModerator(Request $request, EntityManagerInterface $entityManager)
+    {
+        $promote = new \stdClass();
+        $promote->user = null;
+        $promote->submit = null;
+
+        $form = $this->createForm(AdminPromoteType::class, $promote);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $promote->user;
+            $user->setRoles(['ROLE_MODERATOR']);
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+            return $this->redirectToRoute('admin_listM');
+        }
+
+        return $this->render('admin/promoteM.html.twig', [
+            'form' => $form,
         ]);
     }
 }
